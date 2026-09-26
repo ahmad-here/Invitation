@@ -1,0 +1,217 @@
+.event-card {
+  --accent: var(--c-green);
+  --arch: 50% 50% 22px 22px / 130px 130px 22px 22px;
+  position: relative;
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: auto;
+  padding: 7px;
+  border-radius: var(--arch);
+  background: linear-gradient(160deg, var(--c-gold-light), var(--c-gold) 40%, var(--c-gold-deep));
+  box-shadow: var(--shadow-card);
+}
+
+.event-card--mehndi { --accent: var(--c-accent-mehndi); }
+.event-card--barat { --accent: var(--c-accent-barat); }
+.event-card--walima { --accent: var(--c-accent-walima); }
+
+.event-card__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 2.4rem 1.25rem 1.5rem;
+  border-radius: var(--arch);
+  background:
+    radial-gradient(ellipse 90% 45% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 70%),
+    var(--c-cream);
+  color: var(--c-ink);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Fine inner gold line following the arch. */
+.event-card__inner::before {
+  content: '';
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgb(154 116 51 / 0.45);
+  border-radius: var(--arch);
+  pointer-events: none;
+}
+
+/* Soft pattern wash at the top of the arch. */
+.event-card__inner::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 45%;
+  background: var(--accent);
+  opacity: 0.07;
+  -webkit-mask: url('../../assets/images/pattern.svg') center / 48px 48px repeat, linear-gradient(#000, transparent);
+  -webkit-mask-composite: source-in;
+  mask: url('../../assets/images/pattern.svg') center / 48px 48px repeat, linear-gradient(#000, transparent);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.event-card__medallion {
+  position: relative;
+  z-index: 1;
+  width: 3.6rem;
+  height: 3.6rem;
+  padding: 0.7rem;
+  border-radius: 50%;
+  color: var(--c-gold-light);
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 70%, white), var(--accent) 60%, color-mix(in srgb, var(--accent) 70%, black));
+  box-shadow:
+    0 0 0 2px var(--c-cream),
+    0 0 0 3px var(--c-gold),
+    0 8px 16px -6px rgb(0 0 0 / 0.4);
+}
+
+.event-card__date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  font-family: var(--font-caps);
+  color: var(--c-green);
+}
+
+.event-card__weekday {
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-gold-ink);
+  margin-bottom: 0.3rem;
+}
+
+.event-card__day {
+  font-size: clamp(2.6rem, 13vw, 3.2rem);
+  font-weight: 600;
+  background: linear-gradient(180deg, var(--c-gold) 10%, var(--c-gold-deep) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.event-card__month {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding-left: 0.3em; /* optically centre the letter-spaced text */
+}
+
+.event-card__name {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 12vw, 3.1rem);
+  line-height: 1.1;
+  color: var(--accent);
+}
+
+.event-card__tagline {
+  margin-top: -0.4rem;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #4a4130;
+  text-wrap: balance;
+}
+
+.event-card__ornament {
+  width: 70%;
+}
+
+.event-card__details {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.event-card__row dt {
+  font-family: var(--font-caps);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-gold-ink);
+}
+
+.event-card__row dd {
+  margin: 0.15rem 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card__time {
+  font-family: var(--font-caps);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: var(--c-green);
+}
+
+.event-card__venue {
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 1.25;
+  color: var(--c-green);
+}
+
+.event-card__city {
+  font-size: 1.05rem;
+  color: #4a4130;
+}
+
+.event-card__actions {
+  display: grid;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 17rem;
+}
+
+/* ---------- Calendar menu ---------- */
+.calendar {
+  position: relative;
+}
+
+.calendar__menu {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgb(154 116 51 / 0.35);
+  box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.35);
+  animation: menu-in 0.25s var(--ease-out);
+}
+
+.calendar__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 10px;
+  background: var(--c-cream);
+  color: var(--c-green);
+  font-family: var(--font-caps);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.calendar__option:active {
+  background: var(--c-cream-dark);
+}
+
+@keyframes menu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}

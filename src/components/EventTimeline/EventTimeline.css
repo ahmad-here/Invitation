@@ -1,0 +1,36 @@
+.events__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3.25rem;
+}
+
+/* Gold connector between stacked cards (mobile timeline). */
+.events__item + .events__item::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 2.25rem;
+  margin: -2.75rem auto 0.5rem;
+  background: linear-gradient(transparent, var(--c-gold), transparent);
+}
+
+@media (min-width: 900px) {
+  .events__list--2,
+  .events__list--3 {
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    align-items: stretch;
+    gap: 2rem;
+  }
+
+  .events__list--2 { --cols: 2; max-width: 52rem; margin-inline: auto; }
+  .events__list--3 { --cols: 3; }
+
+  .events__item + .events__item::before { display: none; }
+
+  .events__item { display: flex; }
+  .events__item .event-card { height: 100%; }
+  .events__item .event-card__inner { height: 100%; }
+  .events__item .event-card__actions { margin-top: auto; }
+}

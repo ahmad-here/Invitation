@@ -1,0 +1,175 @@
+/* ---------- Revealed invitation: background & layout ---------- */
+.content {
+  position: relative;
+  min-height: 100svh;
+  overflow-x: clip;
+  opacity: 0;
+}
+
+.content.is-revealed {
+  animation: content-in 1.1s var(--ease-out) both;
+}
+
+@keyframes content-in {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 0%, var(--c-green-soft), transparent 65%),
+    radial-gradient(ellipse 100% 60% at 50% 100%, var(--c-green), transparent 70%),
+    var(--c-green-deep);
+}
+
+.page-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--c-gold);
+  opacity: 0.07;
+  -webkit-mask: url('../assets/images/pattern.svg') center / 64px 64px repeat;
+  mask: url('../assets/images/pattern.svg') center / 64px 64px repeat;
+}
+
+.content__particles {
+  position: fixed;
+  z-index: 0;
+}
+
+.content__main,
+.footer {
+  position: relative;
+  z-index: 2;
+}
+
+.section {
+  padding: clamp(3rem, 10vw, 5rem) var(--gutter);
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.eyebrow {
+  font-family: var(--font-caps);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c-gold-light);
+}
+
+.section-title {
+  font-family: var(--font-script);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 11vw, 3.4rem);
+  line-height: 1.15;
+  background: linear-gradient(180deg, var(--c-gold-light) 25%, var(--c-gold) 70%, var(--c-gold-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-wrap: balance;
+}
+
+/* ---------- Paper card (cream, double gold border) ---------- */
+.paper-card {
+  position: relative;
+  border-radius: 20px;
+  color: var(--c-ink);
+  background:
+    radial-gradient(ellipse at 50% 0%, #fffdf6, transparent 70%),
+    linear-gradient(180deg, var(--c-cream), #f6eedb);
+  box-shadow:
+    inset 0 0 0 6px var(--c-cream),
+    inset 0 0 0 7px var(--c-gold),
+    inset 0 0 0 10px var(--c-cream),
+    inset 0 0 0 11px rgb(201 165 90 / 0.55),
+    var(--shadow-card);
+}
+
+.paper-card .corner-floral {
+  top: 1rem;
+  left: 1rem;
+}
+
+.paper-card .corner-floral--tr { left: auto; right: 1rem; }
+.paper-card .corner-floral--bl { top: auto; bottom: 1rem; }
+.paper-card .corner-floral--br { top: auto; left: auto; bottom: 1rem; right: 1rem; }
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: perspective(900px) translate3d(0, 36px, 0) rotateX(8deg);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 120ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hero children rise in sequence once the envelope has opened. */
+.content .stagger {
+  opacity: 0;
+}
+
+.content.is-revealed .stagger {
+  animation: rise 0.9s var(--ease-out) both;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.14s);
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  padding: 1rem var(--gutter) max(2.5rem, env(safe-area-inset-bottom));
+  text-align: center;
+  font-family: var(--font-script);
+  font-size: 1.6rem;
+  color: var(--c-gold-light);
+}
+
+.footer__place {
+  font-family: var(--font-caps);
+  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-cream);
+  opacity: 0.75;
+}
+
+/* ---------- Load error ---------- */
+.load-error {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1.25rem;
+  padding: 2rem var(--gutter);
+  text-align: center;
+}
+
+/* ---------- Reduced motion: everything visible, no movement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .content.is-revealed { animation: fade-in 0.5s ease both; }
+  .reveal { transform: none; transition: opacity 0.4s ease; transition-delay: 0s; }
+  .content.is-revealed .stagger { animation: fade-in 0.4s ease both; }
+}

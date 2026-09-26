@@ -1,0 +1,156 @@
+/* ---------- Ornament divider ---------- */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: min(100%, 17rem);
+  margin-inline: auto;
+  color: var(--c-gold);
+}
+
+.ornament__line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, currentColor);
+}
+
+.ornament__line--end {
+  background: linear-gradient(270deg, transparent, currentColor);
+}
+
+.ornament__motif {
+  width: 3.6rem;
+  height: auto;
+  flex: none;
+}
+
+/* ---------- Corner florals ---------- */
+.corner-floral {
+  position: absolute;
+  width: clamp(3.8rem, 18vw, 6.5rem);
+  height: auto;
+  color: var(--c-gold);
+  pointer-events: none;
+}
+
+.corner-floral__center {
+  fill: var(--c-gold-light);
+}
+
+.corner-floral--tl { top: 0.5rem; left: 0.5rem; }
+.corner-floral--tr { top: 0.5rem; right: 0.5rem; transform: scaleX(-1); }
+.corner-floral--bl { bottom: 0.5rem; left: 0.5rem; transform: scaleY(-1); }
+.corner-floral--br { bottom: 0.5rem; right: 0.5rem; transform: scale(-1, -1); }
+
+/* ---------- Mughal arch frame ---------- */
+.arch-frame {
+  position: relative;
+  color: var(--c-gold);
+}
+
+.arch-frame__top {
+  display: block;
+  width: 100%;
+  height: clamp(4.5rem, 24vw, 7rem);
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.arch-frame__body {
+  position: relative;
+  padding: 0.5rem 1.6rem 2rem;
+  margin-top: -1px;
+}
+
+/* Two borders matching the SVG's outer (x=2) and inner (x=10) arch lines. */
+.arch-frame__body::before,
+.arch-frame__body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  border: 1.2px solid currentColor;
+  border-top: 0;
+  pointer-events: none;
+}
+
+.arch-frame__body::before { left: 0.667%; right: 0.667%; bottom: 0; }
+.arch-frame__body::after { left: 3.333%; right: 3.333%; bottom: 0.45rem; }
+
+/* ---------- Gold dust particles ---------- */
+.particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--c-gold-light) 0%, var(--c-gold) 45%, transparent 75%);
+  box-shadow: 0 0 6px 1px rgb(236 212 155 / 0.45);
+  opacity: 0;
+  animation: particle-rise var(--duration) linear var(--delay) infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes particle-rise {
+  0% { transform: translate3d(0, 0, 0); opacity: 0; }
+  12% { opacity: 0.9; }
+  80% { opacity: 0.6; }
+  100% { transform: translate3d(var(--drift), -105vh, 0); opacity: 0; }
+}
+
+/* ---------- Falling petals ---------- */
+.petals {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.petal {
+  position: absolute;
+  top: -24px;
+  left: var(--x);
+  width: 12px;
+  height: 16px;
+  border-radius: 12px 0 12px 0;
+  opacity: 0;
+  animation: petal-fall var(--duration) linear var(--delay) infinite;
+  will-change: transform, opacity;
+}
+
+.petal--0 { background: linear-gradient(135deg, #f4c7c3, #d98f8a); }
+.petal--1 { background: linear-gradient(135deg, var(--c-gold-light), var(--c-gold)); width: 9px; height: 12px; }
+.petal--2 { background: linear-gradient(135deg, #fbe8e0, #e7b3a8); }
+
+@keyframes petal-fall {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(var(--scale)); opacity: 0; }
+  10% { opacity: 0.75; }
+  50% { transform: translate3d(var(--drift), 55vh, 0) rotate(200deg) scale(var(--scale)); }
+  90% { opacity: 0.6; }
+  100% { transform: translate3d(calc(var(--drift) * -0.5), 110vh, 0) rotate(400deg) scale(var(--scale)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .petals { display: none; }
+  .particle {
+    animation: none;
+    opacity: 0.5;
+    bottom: auto;
+    top: calc(var(--x) * 0.9 + 5%);
+  }
+}
+
+/* ---------- Event icons ---------- */
+.event-icon {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,59 @@
+.closing__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  width: min(100%, 30rem);
+  margin-inline: auto;
+  padding: clamp(3.5rem, 14vw, 4.5rem) clamp(1.25rem, 6vw, 2.25rem);
+  text-align: center;
+}
+
+.closing__line {
+  max-width: 19rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 5.6vw, 1.7rem);
+  line-height: 1.35;
+  color: var(--c-green);
+  text-wrap: balance;
+}
+
+.closing__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-script);
+  font-size: clamp(2.1rem, 10vw, 2.9rem);
+  line-height: 1.1;
+  color: var(--c-green);
+}
+
+.closing__amp {
+  font-size: 0.62em;
+  color: var(--c-gold-deep);
+}
+
+.closing__wish {
+  max-width: 19rem;
+  font-size: clamp(1.1rem, 4.4vw, 1.25rem);
+  color: var(--c-ink);
+  text-wrap: balance;
+}
+
+.closing__share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.closing__share-label {
+  font-family: var(--font-caps);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-gold-ink);
+}

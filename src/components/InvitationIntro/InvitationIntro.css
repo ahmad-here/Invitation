@@ -1,0 +1,376 @@
+/*
+ * Opening scene timeline (normal motion; JS timings in InvitationPage.tsx):
+ *   0.00s  seal pops & fades
+ *   0.35s  flap swings open (rotateX), then drops behind the card
+ *   0.80s  names/button fade out
+ *   1.05s  card rises out of the envelope
+ *   2.30s  stage "revealing": scene zooms & fades into the invitation
+ */
+
+.intro {
+  --env-w: min(78vw, 330px, 50svh);
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  overflow-x: hidden;
+  overflow-y: auto;
+  color: var(--c-cream);
+  background: var(--c-green-deep);
+  transition: opacity 0.9s var(--ease-in-out), visibility 0s linear 0.9s;
+}
+
+.intro__bg {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 58%, rgb(236 212 155 / 0.22), transparent 70%),
+    radial-gradient(ellipse 120% 80% at 50% 0%, var(--c-green-soft), transparent 60%),
+    radial-gradient(ellipse 120% 90% at 50% 110%, var(--c-green), var(--c-green-deep) 70%);
+}
+
+.intro__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--c-gold);
+  opacity: 0.09;
+  -webkit-mask: url('../../assets/images/pattern.svg') center / 64px 64px repeat;
+  mask: url('../../assets/images/pattern.svg') center / 64px 64px repeat;
+}
+
+.intro__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.35rem, 1.4svh, 0.8rem);
+  min-height: 100svh;
+  padding: max(1.25rem, env(safe-area-inset-top)) 1rem max(1.5rem, env(safe-area-inset-bottom));
+  text-align: center;
+}
+
+.intro__bismillah {
+  font-family: var(--font-arabic);
+  font-size: clamp(1rem, 4.4vw, 1.3rem);
+  color: var(--c-gold-light);
+  opacity: 0.9;
+}
+
+.intro__eyebrow {
+  font-family: var(--font-caps);
+  font-size: clamp(0.66rem, 2.6vw, 0.8rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-gold-light);
+}
+
+.intro__names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-script);
+  font-size: clamp(2.1rem, 10.5vw, 3.4rem);
+  line-height: 1.05;
+  margin-bottom: clamp(2.5rem, 8svh, 4.5rem); /* room for the flap/card to rise */
+}
+
+.intro__names span {
+  background: linear-gradient(180deg, var(--c-gold-light) 20%, var(--c-gold) 60%, var(--c-gold-deep));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-inline: 0.15em;
+}
+
+.intro__names .intro__amp {
+  font-size: 0.6em;
+  line-height: 1;
+}
+
+.intro__message {
+  margin-top: 0.5rem;
+  font-style: italic;
+  font-size: clamp(1.05rem, 4.3vw, 1.3rem);
+  color: var(--c-cream);
+}
+
+.intro__button {
+  margin-top: 0.25rem;
+  min-width: 14rem;
+}
+
+/* ---------- Envelope ---------- */
+.envelope-stage {
+  position: relative;
+  width: var(--env-w);
+  perspective: 1100px;
+  transition: transform 1s var(--ease-in-out), opacity 0.9s ease;
+}
+
+.envelope {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  perspective: 900px;
+  transform: rotateX(8deg);
+  animation: envelope-float 6s ease-in-out infinite;
+}
+
+@keyframes envelope-float {
+  0%, 100% { transform: translateY(0) rotateX(9deg) rotateY(-7deg); }
+  50% { transform: translateY(-9px) rotateX(4deg) rotateY(6deg); }
+}
+
+.envelope__back {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #e2d2ad, var(--c-cream-dark));
+  box-shadow:
+    inset 0 0 0 1px rgb(154 116 51 / 0.5),
+    0 22px 40px -18px rgb(0 0 0 / 0.65);
+}
+
+.envelope__card {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 5%;
+  height: 90%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 7%;
+  gap: 2%;
+  border-radius: 4px;
+  background: var(--c-cream);
+  color: var(--c-ink);
+  box-shadow:
+    inset 0 0 0 4px var(--c-cream),
+    inset 0 0 0 5px var(--c-gold),
+    inset 0 0 0 8px var(--c-cream),
+    inset 0 0 0 9px rgb(201 165 90 / 0.6),
+    0 -6px 18px -8px rgb(0 0 0 / 0.35);
+  transition: transform 1.1s var(--ease-out) 1.05s;
+}
+
+.envelope__card-eyebrow {
+  font-family: var(--font-caps);
+  font-size: calc(var(--env-w) * 0.036);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-gold-ink);
+}
+
+.envelope__card-monogram {
+  font-family: var(--font-script);
+  font-size: calc(var(--env-w) * 0.16);
+  line-height: 1;
+  color: var(--c-green);
+}
+
+.envelope__card-monogram span {
+  font-size: 0.55em;
+  margin-inline: 0.12em;
+  color: var(--c-gold-deep);
+}
+
+.envelope__card-ornament {
+  width: 55%;
+}
+
+.envelope__card-names {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: calc(var(--env-w) * 0.045);
+  color: var(--c-green);
+}
+
+.envelope__front {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: 6px;
+  filter: drop-shadow(0 -2px 3px rgb(0 0 0 / 0.12));
+}
+
+.envelope__front svg,
+.envelope__flap svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.envelope__shine {
+  position: absolute;
+  inset: -20% auto -20% -60%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.55), transparent);
+  transform: skewX(-18deg) translateX(0);
+  animation: envelope-shine 5.5s ease-in-out 1.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes envelope-shine {
+  0%, 60% { transform: skewX(-18deg) translateX(0); }
+  100% { transform: skewX(-18deg) translateX(480%); }
+}
+
+.envelope__flap {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  transform-origin: 50% 0;
+  transform: rotateX(0deg);
+  transition:
+    transform 0.8s var(--ease-in-out) 0.35s,
+    z-index 0s linear 0.72s;
+  filter: drop-shadow(0 3px 3px rgb(0 0 0 / 0.14));
+}
+
+.envelope__seal {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  z-index: 5;
+  width: calc(var(--env-w) * 0.2);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  translate: -50% -50%;
+  background: radial-gradient(circle at 34% 30%, var(--c-green-soft), var(--c-green) 55%, var(--c-green-deep));
+  box-shadow:
+    0 0 0 2px rgb(15 59 46 / 0.9),
+    0 0 0 3px rgb(201 165 90 / 0.7),
+    0 6px 12px rgb(0 0 0 / 0.35),
+    inset 0 2px 3px rgb(255 255 255 / 0.18);
+  transition: transform 0.45s var(--ease-in-out), opacity 0.4s ease;
+}
+
+.envelope__seal::before {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid rgb(236 212 155 / 0.7);
+}
+
+.envelope__seal span {
+  font-family: var(--font-script);
+  font-size: calc(var(--env-w) * 0.075);
+  line-height: 1;
+  color: var(--c-gold-light);
+  translate: 0 4%;
+}
+
+.envelope__seal small {
+  font-size: 0.6em;
+  margin-inline: 0.06em;
+}
+
+.envelope__shadow {
+  width: 80%;
+  height: 16px;
+  margin: 18px auto 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent);
+  animation: shadow-breathe 6s ease-in-out infinite;
+}
+
+@keyframes shadow-breathe {
+  0%, 100% { transform: scaleX(1); opacity: 0.9; }
+  50% { transform: scaleX(0.86); opacity: 0.6; }
+}
+
+/* ---------- Stage: opening ---------- */
+.intro__fade {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.intro--opening .intro__fade,
+.intro--revealing .intro__fade {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition-delay: 0.8s;
+}
+
+.intro--opening .intro__button,
+.intro--revealing .intro__button {
+  transition-delay: 0s;
+}
+
+.intro--opening .envelope,
+.intro--revealing .envelope,
+.intro--opening .envelope__shadow,
+.intro--revealing .envelope__shadow {
+  animation-play-state: paused;
+}
+
+.intro--opening .envelope__seal,
+.intro--revealing .envelope__seal {
+  transform: scale(1.35);
+  opacity: 0;
+}
+
+.intro--opening .envelope__flap,
+.intro--revealing .envelope__flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.intro--opening .envelope__card,
+.intro--revealing .envelope__card {
+  transform: translateY(-62%);
+}
+
+.intro--opening .envelope__shine,
+.intro--revealing .envelope__shine {
+  display: none;
+}
+
+/* ---------- Stage: revealing ---------- */
+.intro--revealing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro--revealing .envelope-stage {
+  transform: translateY(-6%) scale(1.18);
+}
+
+/* ---------- Small / short screens ---------- */
+@media (max-height: 620px) {
+  .intro__bismillah { display: none; }
+  .intro__names { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+}
+
+/* ---------- Reduced motion: static card, simple cross-fade ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .envelope,
+  .envelope__shadow,
+  .envelope__shine {
+    animation: none;
+  }
+
+  .envelope { transform: rotateX(6deg); }
+
+  .intro,
+  .intro__fade,
+  .envelope__seal,
+  .envelope__flap,
+  .envelope__card,
+  .envelope-stage {
+    transition-duration: 0.01s !important;
+    transition-delay: 0s !important;
+  }
+
+  .intro { transition: opacity 0.5s ease, visibility 0s linear 0.5s !important; }
+  .intro--revealing .envelope-stage { transform: none; }
+}
