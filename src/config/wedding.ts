@@ -157,7 +157,7 @@ export const weddingConfig = {
    */
   music: {
     enabled: true,
-    url: '',
+    url: '/audio/backgroundmusic.mp3',
     volume: 0.5,
   },
 
