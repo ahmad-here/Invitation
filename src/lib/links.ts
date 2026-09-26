@@ -11,8 +11,14 @@ export function mapsLink(event: WeddingEvent): string {
 
 /** The public link to this version of the invitation. */
 export function inviteUrl(version: VersionId): string {
-  const base = (weddingConfig.siteUrl || window.location.origin).replace(/\/$/, '')
+  // BASE_URL is "/" or e.g. "/Invitation/" on GitHub Pages.
+  const base = (weddingConfig.siteUrl || window.location.origin + import.meta.env.BASE_URL).replace(/\/$/, '')
   return base + invitePath(version)
+}
+
+/** Prefixes a root-relative public path ("/audio/x.mp3") with the deploy base path. */
+export function publicUrl(path: string): string {
+  return path.startsWith('/') ? import.meta.env.BASE_URL + path.slice(1) : path
 }
 
 export function whatsappShareLink(version: VersionId): string {

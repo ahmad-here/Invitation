@@ -176,7 +176,16 @@ Site URL resolution (first match wins): `SITE_URL` env var → `weddingConfig.si
 2. Under **Site configuration → Environment variables**, add `SITE_URL = https://your-domain.com`.
 3. Deploy.
 
-Both serve HTTPS automatically. Check after deploying:
+### GitHub Pages (current setup)
+Live at **https://ahmad-here.github.io/Invitation/** (versions: `/Invitation/invite/walima`, `/Invitation/invite/mehndi-walima`, `/Invitation/invite/full`).
+
+1. Once only: in the repo, go to **Settings → Pages → Source** and select **GitHub Actions**. *Not* "Deploy from a branch", which serves the unbuilt source and gives a blank page.
+2. Push to `main`. `.github/workflows/deploy-pages.yml` builds with `BASE_PATH=/Invitation/` and `SITE_URL=https://ahmad-here.github.io/Invitation`, then publishes `dist/`.
+3. Progress shows in the repo's **Actions** tab. You can re-run it manually with **Run workflow**.
+
+If you add a custom domain later, set `BASE_PATH` to `/` and `SITE_URL` to the new domain in the workflow.
+
+Vercel, Netlify and GitHub Pages all serve HTTPS automatically. Check after deploying:
 - `https://your-domain.com/invite/walima` → *View Source* shows the Walima `og:title`
 - `https://your-domain.com/og/walima.jpg` opens the image
 

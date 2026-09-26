@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { weddingConfig } from '../../config/wedding.ts'
+import { publicUrl } from '../../lib/links.ts'
 
 /**
  * Background music that is only created and started from a user tap
@@ -16,7 +17,7 @@ export function useBackgroundMusic() {
     if (!available) return
     let audio = audioRef.current
     if (!audio) {
-      audio = new Audio(url)
+      audio = new Audio(publicUrl(url))
       audio.loop = true
       audio.volume = volume
       audio.addEventListener('play', () => setPlaying(true))

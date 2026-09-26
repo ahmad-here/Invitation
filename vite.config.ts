@@ -64,6 +64,8 @@ function invitationPages(): Plugin {
         writeFileSync(resolve(outDir, 'invite', slug, 'index.html'), html)
         writeFileSync(resolve(outDir, 'invite', `${slug}.html`), html)
       }
+      // GitHub Pages serves 404.html for unknown paths → fall back to the app (default version).
+      writeFileSync(resolve(outDir, '404.html'), rootHtml)
       console.log(`[invitation] Wrote ${Object.keys(weddingConfig.versions).length} version pages. og base: ${siteUrl}`)
     },
   }
@@ -71,5 +73,8 @@ function invitationPages(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
+  // Sub-folder the site is served from. GitHub Pages project sites need "/<repo>/"
+  // (set by .github/workflows/deploy-pages.yml); Vercel/Netlify/custom domains use "/".
+  base: process.env.BASE_PATH || '/',
   plugins: [react(), babel({ presets: [reactCompilerPreset()] }), invitationPages()],
 })
